@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+    <h1>{{ MESSAGE }}</h1>
+
+    {% if dates %}
+        <ul>
+            {% for date in dates %}
+                <li>
+                    {{ date }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if metas %}
+        <ul>
+            {% for meta, val in metas.items %}
+                <li>
+                    {{ meta }} - {{ val }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    <form action="/test/" method="post">
+        {% csrf_token %}
+        <input type="text" name="what">
+        <input type="number" name="num">
+        <input type="date" name="date">
+        <input type="submit" value="Да">
+    </form>
+
+</body>
+</html>
