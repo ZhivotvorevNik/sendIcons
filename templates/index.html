@@ -28,11 +28,12 @@
     {% endif %}
 
 
-    <form action="/test/" method="post">
+    <form action="/test/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="text" name="what">
         <input type="number" name="num">
         <input type="date" name="date">
+        <input type="file" name="file"><br>
         <input type="submit" value="Да">
     </form>
 

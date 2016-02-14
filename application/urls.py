@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index),
     # Ручки
-    url(r'^test/', save),
+    url(r'^save/', save),
+    url(r'^test/', test),
 ]
