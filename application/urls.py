@@ -24,4 +24,5 @@ urlpatterns = [
     # Ручки
     url(r'^save/', save),
     url(r'^test/', test),
+    url(r'^add/', add),
 ]

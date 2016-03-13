@@ -10,8 +10,11 @@ class Zone(models.Model):
 
 class Service(models.Model):
     name = models.CharField(max_length=200)
+    desc = models.CharField(max_length=200, default='')
     service_id = models.CharField(max_length=200)
     zones = models.ManyToManyField(Zone, related_name="services")
 
     def __str__(self):
         return self.name
+
+

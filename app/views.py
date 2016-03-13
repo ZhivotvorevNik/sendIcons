@@ -8,22 +8,41 @@ from .models import Service
 
 
 def index(request):
+    services = Service.objects.order_by('name')
+
+    data = {
+        'services': services
+    }
+    return render(request, 'index.html', data, context_instance=RequestContext(request))
+
+def add(request):
 
     params = request.GET
     meta = request.META
-    st = 'HELLO, '
-    date = time.strftime('%H:%M, %d %B %Y' ,time.localtime(time.time()))
+    services = Service.objects.order_by('name')
+
     data = {
-        'MESSAGE': st,
-        'USER': 'nizhi',
-        'ONLINE': False,
-        'dates': ['123', '324324', '324324', '32432432', '565465', '546546'],
-        'PARAMS': params,
-        'DATE': date,
-        'req': params,
-        'metas': meta
+        'services': services
     }
-    return render(request, 'index.html', data, context_instance=RequestContext(request))
+    return render(request, 'add.html', data, context_instance=RequestContext(request))
+
+# def index(request):
+#
+#     params = request.GET
+#     meta = request.META
+#     st = 'HELLO, '
+#     date = time.strftime('%H:%M, %d %B %Y' ,time.localtime(time.time()))
+#     data = {
+#         'MESSAGE': st,
+#         'USER': 'nizhi',
+#         'ONLINE': False,
+#         'dates': ['123', '324324', '324324', '32432432', '565465', '546546'],
+#         'PARAMS': params,
+#         'DATE': date,
+#         'req': params,
+#         'metas': meta
+#     }
+#     return render(request, 'index.html', data, context_instance=RequestContext(request))
 
 def test(request):
     params = request.POST
