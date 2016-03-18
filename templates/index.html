@@ -17,98 +17,107 @@
 <body class="page">
 <div class="main">
     <div class="header"></div>
-    <div class="services">
-        <div class="services__controls">
-            <div class="services__select mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
-                <select class="mdl-selectfield__select" id="service" name="service">
-                    <option value=""></option>
-                    {% for service in services %}
-                        <option value="{{ service.service_id }}">{{ service.name }}</option>
-                        {{ service.name }}
-                    {% endfor %}
-                </select>
-                <label class="mdl-selectfield__label" for="service">Сервис</label>
+    <form action="/test/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="services">
+            <div class="services__controls">
+                <div class="services__select mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
+                    <select class="mdl-selectfield__select" id="service" name="service">
+                        <option value=""></option>
+                        {% for service in services %}
+                            <option value="{{ service.service_id }}">{{ service.name }}</option>
+                            {{ service.name }}
+                        {% endfor %}
+                    </select>
+                    <label class="mdl-selectfield__label" for="service">Сервис</label>
+                </div>
+                <div class="services__buttons">
+                    <label for="loadfile" class="services__load mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                        Загрузить
+                    </label>
+                    <input type="file" name="file" id="loadfile" class="services__load-input">
+                </div>
             </div>
-            <div class="services__buttons">
-                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+            <div class="services__container">
+                <label class="services__svg-switcher mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
                     <input type="checkbox" id="switch-1" class="mdl-switch__input"  checked>
                     <span class="mdl-switch__label">Поддержка svg</span>
                 </label>
-            </div>
-        </div>
-        <div class="services__items">
-            {% for service in services %}
-                <div class="services__item service service_type_{{ service.service_id }}" data-service="{{ service.service_id }}">
-                    <div class="service__icon-wrapper">
-                        <div class="service__icon b-ico-{{ service.service_id }}"></div>
-                    </div>
-                    <div class="service__info">
-                        <div class="service__name">{{ service.name }}</div>
-                        <div class="service__desc">{{ service.desc }}</div>
-                    </div>
+                <div class="services__items">
+                    {% for service in services %}
+                        <div class="services__item service service_type_{{ service.service_id }}" data-service="{{ service.service_id }}">
+                            <div class="service__icon-wrapper">
+                                <div class="service__icon b-ico-{{ service.service_id }}"></div>
+                            </div>
+                            <div class="service__info">
+                                <div class="service__name">{{ service.name }}</div>
+                                <div class="service__desc">{{ service.desc }}</div>
+                            </div>
+                        </div>
+                        <div class="services__item service_size_small service service_type_{{ service.service_id }}" data-service="{{ service.service_id }}">
+                            <div class="service__icon-wrapper">
+                                <div class="service__icon b-ico-{{ service.service_id }}_small"></div>
+                            </div>
+                            <div class="service__info">
+                                <div class="service__name">{{ service.name }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-                <div class="services__item service_size_small service service_type_{{ service.service_id }}" data-service="{{ service.service_id }}">
-                    <div class="service__icon-wrapper">
-                        <div class="service__icon b-ico-{{ service.service_id }}_small"></div>
-                    </div>
-                    <div class="service__info">
-                        <div class="service__name">{{ service.name }}</div>
-                    </div>
+            </div>
+        </div>
+        <div class="git">
+            <div class="git__modified">
+                Измененные файлы
+            </div>
+            <div class="git__status">
+                <div class="git__file">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-5">
+                      <input type="checkbox" id="checkbox-5" class="mdl-checkbox__input" checked>
+                      <span class="mdl-checkbox__label">app/static/yaru.jpg</span>
+                    </label>
                 </div>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="git">
-        <div class="git__modified">
-            Измененные файлы
-        </div>
-        <div class="git__status">
-            <div class="git__file">
-                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-5">
-                  <input type="checkbox" id="checkbox-5" class="mdl-checkbox__input" checked>
-                  <span class="mdl-checkbox__label">app/static/yaru.jpg</span>
-                </label>
+                <div class="git__file">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-6">
+                      <input type="checkbox" id="checkbox-6" class="mdl-checkbox__input" checked>
+                      <span class="mdl-checkbox__label">app/static/music.jpg</span>
+                    </label>
+                </div>
             </div>
-            <div class="git__file">
-                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-6">
-                  <input type="checkbox" id="checkbox-6" class="mdl-checkbox__input" checked>
-                  <span class="mdl-checkbox__label">app/static/music.jpg</span>
-                </label>
+            <div class="git__new">
+                Новые файлы
             </div>
-        </div>
-        <div class="git__new">
-            Новые файлы
-        </div>
-        <div class="git__status">
-            <div class="git__file">
-                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-                  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
-                  <span class="mdl-checkbox__label">app/static/disk.jpg</span>
-                </label>
-            </div>
-            <div class="git__file">
-                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
-                  <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" checked>
-                  <span class="mdl-checkbox__label">app/static/market.jpg</span>
-                </label>
-            </div>
-            <div class="git__file">
-                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-3">
-                  <input type="checkbox" id="checkbox-3" class="mdl-checkbox__input" checked>
-                  <span class="mdl-checkbox__label">app/static/zno.jpg</span>
-                </label>
+            <div class="git__status">
+                <div class="git__file">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+                      <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
+                      <span class="mdl-checkbox__label">app/static/disk.jpg</span>
+                    </label>
+                </div>
+                <div class="git__file">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
+                      <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" checked>
+                      <span class="mdl-checkbox__label">app/static/market.jpg</span>
+                    </label>
+                </div>
+                <div class="git__file">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-3">
+                      <input type="checkbox" id="checkbox-3" class="mdl-checkbox__input" checked>
+                      <span class="mdl-checkbox__label">app/static/zno.jpg</span>
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="footer">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-            Сбросить
-        </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-            Коммит
-        </button>
-    </div>
+        <div class="footer">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                Сбросить
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                Коммит
+            </button>
+        </div>
+    </form>
 </div>
 
 

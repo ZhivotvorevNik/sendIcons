@@ -1,8 +1,12 @@
-.main {
-    width:80%;
-    margin: 0 auto;
+.page {
+    min-width: 320px;
 }
 
+.main {
+    width:80%;
+    max-width: 700px;
+    margin: 0 auto;
+}
 
 .services {
     font-size:0;
@@ -11,24 +15,39 @@
 }
 
 .services__controls,
-.services__items {
-    width: 50%;
+.services__container {
     display: inline-block;
     font-size: 14px;
     vertical-align: top;
     box-sizing: border-box;
 }
 
-@media screen and (max-width: 700px) {
-    .services__controls,
-    .services__items {
-        width: 100%;
-    }
+.services__controls{
+    width: 40%;
+}
+
+.services__container {
+    width: 60%;
 }
 
 .services__controls {
-    padding:0 30px 0 10px;
+    padding-right: 30px;
     margin-bottom: 30px;
+}
+
+@media screen and (max-width: 700px) {
+    .services__controls,
+    .services__container {
+        width: 100%;
+    }
+
+    .services__controls {
+        padding: 0;
+    }
+}
+
+.services__load-input {
+    display: none;
 }
 
 .services__select {
@@ -39,10 +58,22 @@
 
 }
 
+.services__container {
+    padding: 5px 20px 20px;
+    background: #EAF8FE;
+}
+
+.services__svg-switcher {
+    margin-bottom:5px ;
+}
+
+
 .services__items {
-    min-height: 160px;
+    min-height: 140px;
     border: 1px solid #eee;
     max-width: 350px;
+    background: #fff;
+    margin: 0 auto;
 }
 
 .service {
