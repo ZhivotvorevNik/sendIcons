@@ -17,7 +17,7 @@
 <body class="page">
 <div class="main">
     <div class="header"></div>
-    <form action="/test/" method="post" enctype="multipart/form-data">
+    <form action="/add/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
         <div class="services">
             <div class="services__controls">
@@ -70,42 +70,8 @@
             <div class="git__modified">
                 Измененные файлы
             </div>
-            <div class="git__status">
-                <div class="git__file">
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-5">
-                      <input type="checkbox" id="checkbox-5" class="mdl-checkbox__input" checked>
-                      <span class="mdl-checkbox__label">app/static/yaru.jpg</span>
-                    </label>
-                </div>
-                <div class="git__file">
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-6">
-                      <input type="checkbox" id="checkbox-6" class="mdl-checkbox__input" checked>
-                      <span class="mdl-checkbox__label">app/static/music.jpg</span>
-                    </label>
-                </div>
-            </div>
-            <div class="git__new">
-                Новые файлы
-            </div>
-            <div class="git__status">
-                <div class="git__file">
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-                      <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
-                      <span class="mdl-checkbox__label">app/static/disk.jpg</span>
-                    </label>
-                </div>
-                <div class="git__file">
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
-                      <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" checked>
-                      <span class="mdl-checkbox__label">app/static/market.jpg</span>
-                    </label>
-                </div>
-                <div class="git__file">
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-3">
-                      <input type="checkbox" id="checkbox-3" class="mdl-checkbox__input" checked>
-                      <span class="mdl-checkbox__label">app/static/zno.jpg</span>
-                    </label>
-                </div>
+             <div class="git__status">
+
             </div>
         </div>
 
@@ -118,6 +84,18 @@
             </button>
         </div>
     </form>
+
+    <div class="popup mdl-dialog">
+        <h4 class="mdl-dialog__title">Ошибка</h4>
+        <div class="mdl-dialog__content">
+            <p>
+                 Не верный формат. Изображение не загрузилось.
+            </p>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" class="popup__close mdl-button">Ok</button>
+        </div>
+    </div>
 </div>
 
 

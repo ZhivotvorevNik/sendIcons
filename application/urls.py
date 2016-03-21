@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^save/', save),
     url(r'^test/', test),
     url(r'^add/', add),
+    url(r'^status/', status),
+
 ]

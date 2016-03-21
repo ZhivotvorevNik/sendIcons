@@ -155,6 +155,21 @@
 }
 
 
+.popup {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    top:30%;
+    left:45%;
+    transition: all 0.5s ease-out;
+}
+
+.popup_shown_yes {
+    display: block;
+    opacity: 1;
+}
+
+
 
 .b-ico-advertising_small {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAByUlEQVR4AY3QA6gmQBQF4A2rsLZt27Zt27ZtW+HZtm3btm2cvVPN/Hq69dXojFpRdSejyIQW6EsUanR2YUVycSXQHF1Dsyu0vqf8BlMKK+rREjnFVVlz5i1YQJn20htMzy+rBXfZKBindAOEZzZR8E4qFPMBYTG6lBkovcGsnJJqcEdVffHZIQb+yYVwjsnFc8sIHFbxQWRmqVjz+sOXk5TrzTeYl1lYCW7TVxd8sY0W/cScMqx47wgt72TJWGZBSo+ePRdTtg3bYFFaXhm4uY+s8NwwRPQTskow6bYZVFziWV+wdvRQoewwtsGypOxicKMuGOA2PYO1fWOzcfavBwaf1mNtSK9LyCysoewStsGq+IwCcP0OaaDTLhWh+141fKKP5fNcbFoe22AF22BtdEouuH57lLH6jglea/nCwDUGbqGpYk6alqGFOmXHsA02hidmgeu/8x8ufLXn/Qb5hMWlduzUaStl27INtgbFpIMbuuMnLn6y5v0GnThz6S7/QFY7PUMSwI3Z8RUX35uKvjxlbVNrykwlovY4+EaiJSxcAvL7DRh0jDKdpDfYbGDrmW3pHoLmnLx44xOtH09kahzZSg62wCz58H/QNmJGwcVsWgAAAABJRU5ErkJggg==)
