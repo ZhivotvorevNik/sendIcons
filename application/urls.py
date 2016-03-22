@@ -26,5 +26,7 @@ urlpatterns = [
     url(r'^test/', test),
     url(r'^add/', add),
     url(r'^status/', status),
+    url(r'^commit/', status),
+    url(r'^checkout/', status),
 
 ]

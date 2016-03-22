@@ -3,8 +3,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext
-from django.shortcuts import render_to_response
-import time
 import os
 import re
 from subprocess import Popen, PIPE
@@ -24,67 +22,29 @@ def index(request):
 def add(request):
     params = request.POST
     files = request.FILES
-    cookies = request.COOKIES
-    meta = request.META
-    useragent = request.META.get('HTTP_USER_AGENT')
-    result = user_agents.parse(useragent)
-    isTouch = result.is_touch_capable
-    data = {}
+    data = {'status': 'error'}
 
-    services = Service.objects.order_by('name')
+    print(params)
 
-    # files = forms.FileField('file')
+    if 'file' in files:
+        uploadFile = files['file']
+        allowTypes = ['image/png', 'image/svg+xml']
 
-    uploadFile = files['file']
-    allowTypes = ['image/png', 'image/svg+xml']
+        if uploadFile.content_type in allowTypes:
+            handle_uploaded_file(uploadFile)
+            data = {
+                'status': 'ok',
+                'imgSrc': uploadFile.name
+            }
 
-
-    print(uploadFile.name)
-    # print(files['file'].size)
-    print(files['file'].content_type)
-    # print(files['file'].charset)
-    # print(files['file'].read())
-
-
-
-    if uploadFile.content_type in allowTypes:
-        handle_uploaded_file(uploadFile)
-        data = {
-            'status': 'ok',
-            'imgSrc': uploadFile.name
-        }
-    else:
-        data = {
-            'status': 'error'
-        }
-
-
-
-    os.system('cp tmp/' + uploadFile.name + ' morda/')
-    #
-    # os.chdir('morda')
-    # resp, err = Popen('git status', shell=True, stdout=PIPE).communicate()
-    # resp = str(resp, 'utf8')
-    #
-    # os.chdir('../')
-    #
-    #
-    # changeTemplate = re.compile('\t.*\n')
-    # changedFiles = re.findall(changeTemplate, resp)
-    #
-    # paths = []
-    #
-    # for filePath in changedFiles:
-    #     filePath = re.split('\s+', filePath)[-2:-1][0].replace('\n', '')
-    #     paths.append(filePath)
-    #
-    #
-    # print(paths)
+        else:
+            data = {
+                'status': 'error'
+            }
 
 
     response = json.dumps(data)
 
-    # return render(request, 'test.html', data)
     return HttpResponse(response)
 
 
@@ -169,3 +129,5 @@ def handle_uploaded_file(file):
     with open('tmp/' + file.name, 'wb+') as dest:
         for chunk in file.chunks():
             dest.write(chunk)
+
+    os.system('cp tmp/' + file.name + ' morda/')

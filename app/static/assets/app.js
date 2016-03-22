@@ -1,6 +1,6 @@
 function getStatus() {
     $.get('/status/')
-        .done(function(html){
+        .done(function(html) {
             var files = $(html);
             files.find('.mdl-checkbox').each(function(i, elem){
                 new MaterialCheckbox(elem)
@@ -10,6 +10,14 @@ function getStatus() {
         })
 }
 
+function enableSettings () {
+    if ($('.services__select select').val() && $('.services__load-input').val()) {
+        $('.services__settings').show();
+    } else {
+        $('.services__settings').hide();
+    }
+}
+
 $(function(){
     getStatus();
 
@@ -17,9 +25,29 @@ $(function(){
         var sevrices = $('.service');
         sevrices.removeClass('service_shown_yes');
         $('.service_type_' + this.value).addClass('service_shown_yes');
-    })
+
+        enableSettings();
+    });
 
     $('.services__load-input').on('change', function(){
+        var file = $(this).val(),
+            text, paths, reg;
+
+        if (file) {
+            reg = new RegExp('/', 'g');
+            paths = file.replace(reg, '\\').split('\\');
+            text = paths[paths.length - 1];
+        } else {
+            text = 'Файл не выбран'
+        }
+
+        $('.services__image').text(text);
+
+        enableSettings();
+
+    });
+
+    $('.services__upload').on('click', function(){
         var $form = $(this).parents('form');
         var formData =  new FormData($form[0]);
 
@@ -41,8 +69,8 @@ $(function(){
                 })
             }
             getStatus();
-
-            //console.log(data)
         })
+
+        return false;
     })
 })
