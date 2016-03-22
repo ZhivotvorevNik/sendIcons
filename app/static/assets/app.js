@@ -1,5 +1,5 @@
 function getStatus() {
-    $.get('/status/')
+    $.get('/status/' + '?rnd=' + (new Date()).getTime())
         .done(function(html) {
             var files = $(html);
             files.find('.mdl-checkbox').each(function(i, elem){
@@ -68,6 +68,45 @@ $(function(){
                     dialog.removeClass('popup_shown_yes');
                 })
             }
+            getStatus();
+        })
+
+        return false;
+    })
+
+    $('.git__checkout').on('click', function(){
+        $.get('/checkout/'  + '?rnd=' + (new Date()).getTime())
+        .done(function() {
+            getStatus();
+        })
+
+        return false;
+    })
+
+    $('.git__commit').on('click', function(){
+        var $form = $(this).parents('form');
+        var formData = new FormData($form[0]);
+
+        $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            cache: false,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            data: formData,
+            headers: {
+                'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()
+            }
+        })
+        .done(function( data ) {
+            //if (data.status && data.status === 'error') {
+            //    var dialog = $('.popup');
+            //    dialog.addClass('popup_shown_yes');
+            //    $('.popup .popup__close').on('click', function() {
+            //        dialog.removeClass('popup_shown_yes');
+            //    })
+            //}
             getStatus();
         })
 

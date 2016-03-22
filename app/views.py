@@ -13,18 +13,23 @@ from .models import Service
 
 def index(request):
     services = Service.objects.order_by('name')
+    cookies = request.COOKIES
+    meta = request.META
+    useragent = request.META.get('HTTP_USER_AGENT')
+    result = user_agents.parse(useragent)
+    isTouch = result.is_touch_capable
+
 
     data = {
         'services': services
     }
+
     return render(request, 'index.html', data, context_instance=RequestContext(request))
 
 def add(request):
     params = request.POST
     files = request.FILES
     data = {'status': 'error'}
-
-    print(params)
 
     if 'file' in files:
         uploadFile = files['file']
@@ -49,17 +54,6 @@ def add(request):
 
 
 def status(request):
-    params = request.POST
-    files = request.FILES
-    cookies = request.COOKIES
-    meta = request.META
-    useragent = request.META.get('HTTP_USER_AGENT')
-    result = user_agents.parse(useragent)
-    isTouch = result.is_touch_capable
-    data = {}
-
-    services = Service.objects.order_by('name')
-
     os.chdir('morda')
     resp, err = Popen('git status', shell=True, stdout=PIPE).communicate()
     resp = str(resp, 'utf8')
@@ -76,18 +70,59 @@ def status(request):
         filePath = re.split('\s+', filePath)[-2:-1][0].replace('\n', '')
         paths.append(filePath)
 
-
-    print(paths)
-
     data = {
         'files': paths
     }
 
-    response = json.dumps(data)
-
     return render(request, 'status.html', data)
-    # return HttpResponse(response)
 
+
+def checkout(request):
+    os.chdir('morda')
+    os.system('git add -A')
+    os.system('git checkout -f')
+
+    os.chdir('../')
+
+    data = {
+        'status': 'ok'
+    }
+
+    return HttpResponse(json.dumps(data))
+
+def commit(request):
+    params = request.POST
+    files = []
+
+    for key, val in params.items():
+        if val == 'on':
+            files.append(key)
+
+    if len(files):
+        files.insert(0, 'git add')
+        add_command = ' '.join(files)
+
+        os.chdir('morda')
+
+        os.system('git stash')
+        os.system('git pull origin dev')
+        os.system('git stash pop')
+        os.system(add_command)
+        os.system('git commit -m "HOME-0: Добавлены иконки"')
+
+        os.chdir('../')
+
+        data = {
+            'status': 'ok',
+            'params': params
+        }
+    else:
+        data = {
+            'status': 'error',
+            'error': 'nodata'
+        }
+
+    return HttpResponse(json.dumps(data))
 
 
 # def index(request):

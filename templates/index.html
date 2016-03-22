@@ -82,7 +82,7 @@
         </form>
     </div>
     <div class="git">
-        <form action="/commit/" class="git__form">
+        <form action="/commit/" method="post" class="git__form">
             {% csrf_token %}
             <div class="git__modified">
                 Измененные файлы
