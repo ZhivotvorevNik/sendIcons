@@ -31,12 +31,13 @@ def add(request):
     files = request.FILES
     data = {'status': 'error'}
 
-    if 'file' in files:
-        uploadFile = files['file']
+    if 'icon' in files:
+        uploadFile = files['icon']
         allowTypes = ['image/png', 'image/svg+xml']
+        serviceName = params['service']
 
         if uploadFile.content_type in allowTypes:
-            handle_uploaded_file(uploadFile)
+            handle_uploaded_file(uploadFile, serviceName)
             data = {
                 'status': 'ok',
                 'imgSrc': uploadFile.name
@@ -145,7 +146,7 @@ def commit(request):
 
 def test(request):
     params = request.POST
-    files = request.FILES
+    files = request.FILESnancat
     cookies = request.COOKIES
     meta = request.META
     useragent = request.META.get('HTTP_USER_AGENT')
@@ -160,9 +161,21 @@ def test(request):
     # return render(request, 'test.html', data)
     return HttpResponse(json.dumps(data))
 
-def handle_uploaded_file(file):
-    with open('tmp/' + file.name, 'wb+') as dest:
+
+# Добавить сжатие, нормальные имена, перенос в правильные места
+def handle_uploaded_file(file, serviceName):
+    extMap = {
+        'image/svg+xml': 'svg',
+        'image/png': 'png'
+    }
+
+
+    path = 'tmp/' + serviceName + '.' + extMap[file.content_type]
+    with open(path, 'wb+') as dest:
         for chunk in file.chunks():
             dest.write(chunk)
 
-    os.system('cp tmp/' + file.name + ' morda/')
+    os.system('cp ' + path + ' morda/')
+
+def minifyPng(path):
+    ext - 5
