@@ -4,7 +4,7 @@
 
 .main {
     width:80%;
-    max-width: 700px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -12,6 +12,13 @@
     font-size:0;
     margin-top: 20px;
     margin-bottom: 30px;
+}
+.services__title {
+    margin-bottom: 10px;
+}
+.services__select {
+    display: block;
+    margin:0 auto;
 }
 
 .services__controls,
@@ -23,19 +30,19 @@
 }
 
 .services__controls{
-    width: 40%;
-}
-
-.services__container {
-    width: 60%;
-}
-
-.services__controls {
-    padding-right: 30px;
+    width: 45%;
+    padding-left: 30px;
     margin-bottom: 30px;
 }
 
-@media screen and (max-width: 700px) {
+.services__container {
+    width: 55%;
+    margin-bottom: 30px;
+}
+
+
+@media screen and (max-width: 650px) {
+
     .services__controls,
     .services__container {
         width: 100%;
@@ -50,21 +57,17 @@
     display: none;
 }
 
-.services__select {
-    margin-bottom: 10px;
-}
-
-.services__buttons {
-
+.services__image {
+    margin-bottom: 5px;
 }
 
 .services__container {
-    padding: 5px 20px 20px;
+    padding: 20px 20px 5px;
     background: #EAF8FE;
 }
 
 .services__svg-switcher {
-    margin-bottom:5px ;
+    margin-top:5px ;
 }
 
 
@@ -154,17 +157,35 @@
     padding: 10px;
 }
 
+.git__file {
+    margin-bottom: 5px;
+}
+
+.git__file  .mdl-checkbox{
+    height: auto;
+}
+
 .services__settings {
-    display: none;
+    /*display: none;*/
+}
+
+.settings__vars {
+    padding: 20px 0;
+}
+
+.settings__radio {
+    margin-top: 10px;
 }
 
 .popup {
     display: none;
     opacity: 0;
+    background: #fff;
     position: fixed;
     top:30%;
     left:45%;
     transition: all 0.5s ease-out;
+    z-index: 10;
 }
 
 .popup_shown_yes {

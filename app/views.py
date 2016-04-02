@@ -31,16 +31,30 @@ def add(request):
     files = request.FILES
     data = {'status': 'error'}
 
+    settings = []
+
+    # Получаем флаги (должны быть вида settings_[имя])
+    for param in params:
+        result = re.compile('settings_(.*)').match(param)
+        if result:
+            settings.append(result.group(1))
+
+    print(settings)
+
     if 'icon' in files:
         uploadFile = files['icon']
         allowTypes = ['image/png', 'image/svg+xml']
         serviceName = params['service']
 
         if uploadFile.content_type in allowTypes:
-            handle_uploaded_file(uploadFile, serviceName)
+            (filePath, fileExtention) = handle_uploaded_file(uploadFile, serviceName)
+
+            optimizeImg(filePath, fileExtention)
+            moveToDest(filePath, fileExtention, serviceName,  settings)
+
             data = {
                 'status': 'ok',
-                'imgSrc': uploadFile.name
+                'imgSrc': filePath
             }
 
         else:
@@ -169,13 +183,53 @@ def handle_uploaded_file(file, serviceName):
         'image/png': 'png'
     }
 
+    ext = extMap[file.content_type]
 
-    path = 'tmp/' + serviceName + '.' + extMap[file.content_type]
+    path = 'tmp/' + serviceName + '.' + ext
     with open(path, 'wb+') as dest:
         for chunk in file.chunks():
             dest.write(chunk)
 
-    os.system('cp ' + path + ' morda/')
+    return (path, ext)
+
+def optimizeImg(path, ext):
+    if ext == 'png':
+        optimizePng(path)
+    elif ext == 'svg':
+        optimizeSvg(path)
+    else:
+        print('Другое расширение')
+        return
+
+def optimizeSvg(path):
+    print('оптимизация svg...')
+    return
+
+
+def optimizePng(path):
+    print('оптимизация png...')
+    return
+
+
+def moveToDest(path, fileExtention, serviceName, settings):
+    isTr = 'turkey' in settings
+    for setting in settings:
+        if setting == 'turkey':
+            pass
+        else:
+            destPath = getDestPath(serviceName, setting, fileExtention, isTr)
+            print(destPath)
+            os.system('cp ' + path + ' morda/' + destPath)
+
+def getDestPath(serviceName, setting, extention, isTr):
+    prefix = '_tr' if isTr else ''
+
+    if (setting == 'big'):
+        return 'tmpl/everything/blocks/common-all/services-main/services-main.inline/' + serviceName + prefix + '.' + extention
+    elif (setting == 'small'):
+        return 'tmpl/everything/blocks/common-all/services-all/services-all.inline/' + serviceName + '_small' + prefix + '.' + extention
+    elif (setting == '404'):
+        return 'tmpl/white/blocks/404/services/services.inline/service-' + serviceName + prefix + '.' + extention
 
 def minifyPng(path):
     ext - 5
