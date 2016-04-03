@@ -11,6 +11,9 @@ import user_agents
 from .models import Service
 
 
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+MORDA_PATH = SITE_ROOT + '/../morda/'
+
 def index(request):
     services = Service.objects.order_by('name')
     cookies = request.COOKIES
@@ -39,15 +42,18 @@ def add(request):
         if result:
             settings.append(result.group(1))
 
-    print(settings)
-
     if 'icon' in files:
         uploadFile = files['icon']
-        allowTypes = ['image/png', 'image/svg+xml']
         serviceName = params['service']
 
-        if uploadFile.content_type in allowTypes:
-            (filePath, fileExtention) = handle_uploaded_file(uploadFile, serviceName)
+        extMap = {
+            'image/svg+xml': 'svg',
+            'image/png': 'png'
+        }
+
+        if uploadFile.content_type in extMap:
+            fileExtention = extMap[uploadFile.content_type]
+            filePath = handle_uploaded_file(uploadFile, serviceName, fileExtention)
 
             optimizeImg(filePath, fileExtention)
             moveToDest(filePath, fileExtention, serviceName,  settings)
@@ -69,11 +75,11 @@ def add(request):
 
 
 def status(request):
-    os.chdir('morda')
+    os.chdir(MORDA_PATH)
     resp, err = Popen('git status', shell=True, stdout=PIPE).communicate()
     resp = str(resp, 'utf8')
 
-    os.chdir('../')
+    os.chdir(SITE_ROOT)
 
 
     changeTemplate = re.compile('\t.*\n')
@@ -93,11 +99,11 @@ def status(request):
 
 
 def checkout(request):
-    os.chdir('morda')
+    os.chdir(MORDA_PATH)
     os.system('git add -A')
     os.system('git checkout -f')
 
-    os.chdir('../')
+    os.chdir(SITE_ROOT)
 
     data = {
         'status': 'ok'
@@ -109,7 +115,11 @@ def commit(request):
     params = request.POST
     files = []
 
+    message = 'HOME-0: Добавлены иконки в /all'
+
     for key, val in params.items():
+        if key == 'commit__message' and val:
+            message = val
         if val == 'on':
             files.append(key)
 
@@ -117,19 +127,19 @@ def commit(request):
         files.insert(0, 'git add')
         add_command = ' '.join(files)
 
-        os.chdir('morda')
+        os.chdir(MORDA_PATH)
 
         os.system('git stash')
         os.system('git pull origin dev')
         os.system('git stash pop')
         os.system(add_command)
-        os.system('git commit -m "HOME-0: Добавлены иконки"')
+        os.system('git commit -m "' + message + '"')
 
-        os.chdir('../')
+        os.chdir(SITE_ROOT)
 
         data = {
             'status': 'ok',
-            'params': params
+            'params': message
         }
     else:
         data = {
@@ -177,21 +187,15 @@ def test(request):
 
 
 # Добавить сжатие, нормальные имена, перенос в правильные места
-def handle_uploaded_file(file, serviceName):
-    extMap = {
-        'image/svg+xml': 'svg',
-        'image/png': 'png'
-    }
-
-    ext = extMap[file.content_type]
-
-    path = 'tmp/' + serviceName + '.' + ext
+def handle_uploaded_file(file, serviceName, fileExtention):
+    path = SITE_ROOT + '/../tmp/' + serviceName + '.' + fileExtention
     with open(path, 'wb+') as dest:
         for chunk in file.chunks():
             dest.write(chunk)
 
-    return (path, ext)
+    return path
 
+# TODO добавить оптимизацию
 def optimizeImg(path, ext):
     if ext == 'png':
         optimizePng(path)
@@ -213,13 +217,13 @@ def optimizePng(path):
 
 def moveToDest(path, fileExtention, serviceName, settings):
     isTr = 'turkey' in settings
+    files = []
     for setting in settings:
         if setting == 'turkey':
             pass
         else:
             destPath = getDestPath(serviceName, setting, fileExtention, isTr)
-            print(destPath)
-            os.system('cp ' + path + ' morda/' + destPath)
+            os.system('cp ' + path + ' ' + MORDA_PATH + destPath)
 
 def getDestPath(serviceName, setting, extention, isTr):
     prefix = '_tr' if isTr else ''

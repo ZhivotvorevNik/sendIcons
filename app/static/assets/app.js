@@ -11,11 +11,26 @@ function getStatus() {
 }
 
 function enableSettings () {
-    if ($('.services__select select').val() && $('.services__load-input').val()) {
+    if ($('.services__select select').val()) {
         $('.services__settings').show();
     } else {
         $('.services__settings').hide();
     }
+}
+
+function enableUpload () {
+    var but = $('.services__upload');
+
+    console.log($('.services__load-input').val())
+
+    console.log(but)
+
+    if($('.services__load-input').val()) {
+        but.attr('disabled', null);
+    } else {
+        but.attr('disabled', '');
+    }
+
 }
 
 $(function(){
@@ -43,7 +58,7 @@ $(function(){
 
         $('.services__image').text(text);
 
-        enableSettings();
+        enableUpload();
 
     });
 
@@ -61,12 +76,22 @@ $(function(){
             data: formData
         })
         .done(function( data ) {
-            if (data.status && data.status === 'error') {
+            if (!data || !data.status) {
+                console.error('что-то не так при загрузке');
+                return;
+            }
+            if (data.status === 'error') {
                 var dialog = $('.popup');
                 dialog.addClass('popup_shown_yes');
                 $('.popup .popup__close').on('click', function() {
                     dialog.removeClass('popup_shown_yes');
                 })
+            } else if (data.status === 'ok') {
+                var snackData = {
+                    message: 'Изображение загружено',
+                    timeout: 1500
+                };
+                $('.popup_snackbar')[0].MaterialSnackbar.showSnackbar(snackData);
             }
             getStatus();
         })
@@ -77,6 +102,11 @@ $(function(){
     $('.git__checkout').on('click', function(){
         $.get('/checkout/'  + '?rnd=' + (new Date()).getTime())
         .done(function() {
+            var snackData = {
+                message: 'Все изменения сброшены',
+                timeout: 1500
+            };
+            $('.popup_snackbar')[0].MaterialSnackbar.showSnackbar(snackData);
             getStatus();
         })
 
@@ -99,14 +129,15 @@ $(function(){
                 'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()
             }
         })
-        .done(function( data ) {
-            //if (data.status && data.status === 'error') {
-            //    var dialog = $('.popup');
-            //    dialog.addClass('popup_shown_yes');
-            //    $('.popup .popup__close').on('click', function() {
-            //        dialog.removeClass('popup_shown_yes');
-            //    })
-            //}
+        .done(function(data) {
+            var snackData;
+            if (data.status === 'ok') {
+                snackData = {
+                    message: 'Изменения закоммичены: ' + data.message,
+                    timeout: 1500
+                };
+                $('.popup_snackbar')[0].MaterialSnackbar.showSnackbar(snackData);
+            }
             getStatus();
         })
 

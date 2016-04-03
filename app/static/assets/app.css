@@ -18,7 +18,7 @@
 }
 .services__select {
     display: block;
-    margin:0 auto;
+    /*margin:0 auto;*/
 }
 
 .services__controls,
@@ -161,12 +161,35 @@
     margin-bottom: 5px;
 }
 
-.git__file  .mdl-checkbox{
+.git__file  .mdl-checkbox {
     height: auto;
 }
 
+.git__file  .mdl-checkbox__label {
+    word-wrap: break-word;
+}
+
+.git__message {
+    margin-right: 30px;
+}
+
+.git__buttons {
+    display: inline-block;
+}
+
+.git__commit {
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 650px) {
+    .git__message {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
 .services__settings {
-    /*display: none;*/
+    display: none;
 }
 
 .settings__vars {
@@ -184,6 +207,7 @@
     position: fixed;
     top:30%;
     left:45%;
+    left: calc(50% - 150px);
     transition: all 0.5s ease-out;
     z-index: 10;
 }

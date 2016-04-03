@@ -79,13 +79,13 @@
                         <div class="settings__check">
                             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="settings_big">
                               <input type="checkbox" id="settings_big" name="settings_big" class="mdl-checkbox__input" checked>
-                              <span class="mdl-checkbox__label">Большие сервисы</span>
+                              <span class="mdl-checkbox__label">Большая иконка</span>
                             </label>
                         </div>
                         <div class="settings__check">
                             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="settings_small">
                               <input type="checkbox" id="settings_small" name="settings_small" class="mdl-checkbox__input">
-                              <span class="mdl-checkbox__label">Маленькие сервисы</span>
+                              <span class="mdl-checkbox__label">Маленькая иконка</span>
                             </label>
                         </div>
                         <div class="settings__check">
@@ -97,13 +97,13 @@
                         <div class="settings__radio">
                             <label class="settings__turkey-switcher mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-turkey">
                                 <input type="checkbox" id="switch-turkey" name="settings_turkey" class="mdl-switch__input">
-                                <span class="mdl-switch__label">Турецкая морда</span>
+                                <span class="mdl-switch__label">Иконка для Турции</span>
                             </label>
                         </div>
                     </div>
 
 
-                    <button class="services__upload mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    <button class="services__upload mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" disabled>
                         Загрузить
                     </button>
                 </div>
@@ -122,12 +122,17 @@
             <div class="git__status">
             </div>
 
+            <div class="git__message mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="commit__message" name="commit__message">
+                <label class="mdl-textfield__label" for="commit__message">Commit message...</label>
+            </div>
+
             <div class="git__buttons">
-                <button class="git__checkout mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-                    Сбросить
-                </button>
                 <button class="git__commit mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                     Коммит
+                </button>
+                <button class="git__checkout mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                    Сбросить
                 </button>
             </div>
         </form>
@@ -143,6 +148,10 @@
         <div class="mdl-dialog__actions">
             <button type="button" class="popup__close mdl-button">Ok</button>
         </div>
+    </div>
+    <div class="mdl-js-snackbar mdl-snackbar popup_snackbar">
+      <div class="mdl-snackbar__text"></div>
+      <button class="mdl-snackbar__action" type="button"></button>
     </div>
 </div>
 
