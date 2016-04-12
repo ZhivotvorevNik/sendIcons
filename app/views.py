@@ -139,7 +139,7 @@ def commit(request):
 
         data = {
             'status': 'ok',
-            'params': message
+            'message': message
         }
     else:
         data = {
@@ -170,17 +170,20 @@ def commit(request):
 
 def test(request):
     params = request.POST
-    files = request.FILESnancat
     cookies = request.COOKIES
     meta = request.META
     useragent = request.META.get('HTTP_USER_AGENT')
     result = user_agents.parse(useragent)
     isTouch = result.is_touch_capable
 
+    files = os.listdir(SITE_ROOT + '/../tmp/')
+
+    print(files)
+
     services = Service.objects.order_by('name')
 
 
-    data = {}
+    data = files
 
     # return render(request, 'test.html', data)
     return HttpResponse(json.dumps(data))
